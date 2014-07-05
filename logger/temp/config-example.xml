@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ The levels of logging are TRACE, DEBUG, INFO, WARN, ERROR and FATAL.
+-->
+<configuration xmlns="http://logging.apache.org/log4php/">
+    <!--Appender definition-->
+    <!--Default-->
+    <appender name="default" class="LoggerAppenderConsole">
+        <layout class="LoggerLayoutSimple" />
+        <param name="target" value="stdout" />
+        <!--<filter class="LoggerFilterDenyAll" />-->
+    </appender>
+    <!--LAEcho-->
+    <appender name="LAEcho" class="LoggerAppenderEcho">
+        <layout class="LoggerLayoutSimple" />
+        <param name="htmlLineBreaks" value="true" />
+    </appender>
+    <!--LAConsole-->
+    <appender name="LAConsole" class="LoggerAppenderConsole">
+        <layout class="LoggerLayoutSimple" />
+        <param name="target" value="stdout" />
+    </appender>
+    <!--LAFile-->
+    <appender name="LAFile" class="LoggerAppenderFile">
+        <layout class="LoggerLayoutPattern">
+            <param name="conversionPattern" value="%date %logger %-5level %msg%n" />
+        </layout>
+        <param name="file" value="./debug-apd.log" />
+        <param name="append" value="true" />
+    </appender>
+    <!--LADailyFile-->
+    <appender name="LADailyFile" class="LoggerAppenderDailyFile">
+        <layout class="LoggerLayoutPattern">
+            <param name="conversionPattern" value="%date %logger %-5level %msg%n" />
+        </layout>
+        <param name="file" value="./file-%s.log" />
+        <param name="datePattern" value="Y-m-d" />
+    </appender>
+    <!--LARollingFile-->
+    <appender name="LARollingFile" class="LoggerAppenderRollingFile">
+        <layout class="LoggerLayoutSimple" />
+        <param name="file" value="file.log" />
+        <param name="append" value="true" />
+        <param name="maxFileSize" value="1MB" />
+        <param name="maxBackupIndex" value="5" />
+        <param name="compress" value="false" />
+    </appender>
+    <!--LAMailEvent-->
+    <appender name="LAMailEvent" class="LoggerAppenderMailEvent">
+        <layout class="LoggerLayoutSimple" />
+        <param name="to" value="chenjinlong@tuniu.com" />
+        <param name="from" value="chenjinlong@tuniu.com" />
+        <param name="subject" value="Log4php Report"/>
+    </appender>
+    <!--LANull-->
+    <appender name="LANull" class="LoggerAppenderNull" />
+    <!--LAPDO-Sqlite-->
+    <!--CREATE TABLE log4php_log (
+        timestamp VARCHAR(256),
+        logger VARCHAR(256),
+        level VARCHAR(32),
+        message VARCHAR(4000),
+        thread INTEGER,
+        file VARCHAR(255),
+        line VARCHAR(10)
+    );-->
+    <!--<appender name="LAPDO-sqlite" class="LoggerAppenderPDO">
+        <param name="dsn" value="sqlite:/tmp/log.db" />
+        <param name="insertPattern" value="%date{Y-m-d H:i:s},%logger,%level,%message,%pid,%file,%line" />
+        <param name="insertSql" value="INSERT INTO __TABLE__ (timestamp, logger, level, message, thread, file, line) VALUES (?, ?, ?, ?, ?, ?, ?)" />
+    </appender>
+    &lt;!&ndash;LAPDO-MySQL&ndash;&gt;
+    &lt;!&ndash;CREATE TABLE log (
+        timestamp DATETIME,
+        logger VARCHAR(256),
+        level VARCHAR(32),
+        message VARCHAR(4000),
+        thread INTEGER,
+        file VARCHAR(255),
+        line VARCHAR(10)
+    );&ndash;&gt;
+    <appender name="LAPDO-mysql" class="LoggerAppenderPDO">
+        <param name="dsn" value="mysql:host=localhost;dbname=logdb" />
+        <param name="user" value="root" />
+        <param name="password" value="secret" />
+        <param name="table" value="log" />
+        <param name="insertPattern" value="%date{Y-m-d H:i:s},%logger,%level,%message,%pid,%file,%line" />
+        <param name="insertSql" value="INSERT INTO __TABLE__ (timestamp, logger, level, message, thread, file, line) VALUES (?, ?, ?, ?, ?, ?, ?)" />
+        &lt;!&ndash;<filter class="LoggerFilterDenyAll" />&ndash;&gt;
+        &lt;!&ndash;<filter class="LoggerFilterLevelRange">
+            <param name="levelMin" value="warn" />
+            <param name="levelMax" value="error" />
+            <param name="acceptOnMatch" value="true" />
+        </filter>&ndash;&gt;
+        <filter class="LoggerFilterLevelMatch">
+            <param name="levelToMatch" value="error" />
+            <param name="acceptOnMatch" value="true" />
+        </filter>
+        &lt;!&ndash;<filter class="LoggerFilterStringMatch">
+            <param name="StringToMatch" value="not-interesting" />
+            <param name="AcceptOnMatch" value="false" />
+        </filter>&ndash;&gt;
+    </appender>-->
+    <!--LASocket-->
+    <appender name="LASocket" class="LoggerAppenderSocket">
+        <param name="remoteHost" value="localhost" />
+        <param name="port" value="4242" />
+    </appender>
+
+    <!--Logger definition-->
+    <!--Default logger. Any named logger that is created will inherit these root settings.-->
+    <root>
+        <level value="trace" />
+        <appender_ref ref="default" />
+    </root>
+    <logger name="root-test" additivity="false" />
+    <logger name="debug-logger">
+        <level value="warn"/>
+        <appender_ref ref="LAFile"/>
+    </logger>
+    <logger name="debug-logger2">
+        <level value="warn"/>
+        <appender_ref ref="LAConsole"/>
+    </logger>
+
+    <!--Inheritance DEMO for Logger hierarchy
+    <logger name="foo">
+        <appender_ref ref="A2" />
+        <appender_ref ref="A3" />
+    </logger>
+    <logger name="foo.bar" />
+    <logger name="foo.bar.baz" additivity="false">
+        <appender_ref ref="A4" />
+    </logger>-->
+
+    <!--Renderer definition-->
+    <renderer renderedClass="Test" renderingClass="TestRenderer" />
+    <!--<defaultRenderer renderingClass="MyRenderer" />-->
+
+</configuration>

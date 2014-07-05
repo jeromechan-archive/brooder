@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ The levels of logging are TRACE, DEBUG, INFO, WARN, ERROR and FATAL.
+-->
+<configuration xmlns="http://logging.apache.org/log4php/">
+    <!--Renderer definition-->
+    <defaultRenderer renderingClass="LoggerRendererDefault" />
+    <!--Appender definition-->
+    <!--Default-->
+    <appender name="default" class="LoggerAppenderFile">
+        <layout class="LoggerLayoutPattern">
+            <param name="conversionPattern" value="%date %logger %-5level %msg%n" />
+        </layout>
+        <param name="file" value="D:\Projects\boss\stable\RSCH-PROJECT/logger/cache/root.log" />
+        <param name="append" value="true" />
+        <!--<filter class="LoggerFilterDenyAll" />-->
+    </appender>
+    <!--LAEcho-->
+    <appender name="LAEcho" class="LoggerAppenderEcho">
+        <layout class="LoggerLayoutSimple" />
+        <param name="htmlLineBreaks" value="true" />
+    </appender>
+    <!--LAConsole-->
+    <appender name="LAConsole" class="LoggerAppenderConsole">
+        <layout class="LoggerLayoutSimple" />
+        <param name="target" value="stdout" />
+    </appender>
+    <!--LAFile-->
+    <appender name="LAFile" class="LoggerAppenderFile">
+        <layout class="LoggerLayoutPattern">
+            <param name="conversionPattern" value="%date %logger %-5level %msg%n" />
+        </layout>
+        <filter class="LoggerFilterLevelRange">
+            <param name="levelMin" value="debug" />
+            <param name="levelMax" value="error" />
+            <param name="acceptOnMatch" value="true" />
+        </filter>
+        <param name="file" value="D:\Projects\boss\stable\RSCH-PROJECT/logger/cache/error.log" />
+        <param name="append" value="true" />
+    </appender>
+    <!--LADailyFile-->
+    <appender name="LADailyFile_FATAL" class="LoggerAppenderDailyFile">
+        <layout class="LoggerLayoutPattern">
+            <param name="conversionPattern" value="%date %logger %-5level %msg%n" />
+        </layout>
+        <filter class="LoggerFilterLevelRange">
+            <param name="levelMin" value="fatal" />
+            <param name="levelMax" value="fatal" />
+            <param name="acceptOnMatch" value="true" />
+        </filter>
+        <param name="file" value="D:\Projects\boss\stable\RSCH-PROJECT/logger/cache/fatal-%s.log" />
+        <param name="datePattern" value="Y-m-d" />
+    </appender>
+
+    <appender name="LADailyFile_ERROR" class="LoggerAppenderDailyFile">
+        <layout class="LoggerLayoutPattern">
+            <param name="conversionPattern" value="%date %logger %-5level %msg%n" />
+        </layout>
+        <filter class="LoggerFilterLevelRange">
+            <param name="levelMin" value="error" />
+            <param name="levelMax" value="error" />
+            <param name="acceptOnMatch" value="true" />
+        </filter>
+        <param name="file" value="D:\Projects\boss\stable\RSCH-PROJECT/logger/cache/error-%s.log" />
+        <param name="datePattern" value="Y-m-d" />
+    </appender>
+
+    <appender name="LADailyFile_WARN" class="LoggerAppenderDailyFile">
+        <layout class="LoggerLayoutPattern">
+            <param name="conversionPattern" value="%date %logger %-5level %msg%n" />
+        </layout>
+        <filter class="LoggerFilterLevelRange">
+            <param name="levelMin" value="warn" />
+            <param name="levelMax" value="warn" />
+            <param name="acceptOnMatch" value="true" />
+        </filter>
+        <param name="file" value="D:\Projects\boss\stable\RSCH-PROJECT/logger/cache/warn-%s.log" />
+        <param name="datePattern" value="Y-m-d" />
+    </appender>
+
+    <appender name="LADailyFile_INFO" class="LoggerAppenderDailyFile">
+        <layout class="LoggerLayoutPattern">
+            <param name="conversionPattern" value="%date %logger %-5level %msg%n" />
+        </layout>
+        <filter class="LoggerFilterLevelRange">
+            <param name="levelMin" value="info" />
+            <param name="levelMax" value="info" />
+            <param name="acceptOnMatch" value="true" />
+        </filter>
+        <param name="file" value="D:\Projects\boss\stable\RSCH-PROJECT/logger/cache/info-%s.log" />
+        <param name="datePattern" value="Y-m-d" />
+    </appender>
+
+    <appender name="LADailyFile_DEBUG" class="LoggerAppenderDailyFile">
+        <layout class="LoggerLayoutPattern">
+            <param name="conversionPattern" value="%date %logger %-5level %msg%n" />
+        </layout>
+        <filter class="LoggerFilterLevelRange">
+            <param name="levelMin" value="debug" />
+            <param name="levelMax" value="debug" />
+            <param name="acceptOnMatch" value="true" />
+        </filter>
+        <param name="file" value="D:\Projects\boss\stable\RSCH-PROJECT/logger/cache/debug-%s.log" />
+        <param name="datePattern" value="Y-m-d" />
+    </appender>
+
+    <appender name="LADailyFile_TRACE" class="LoggerAppenderDailyFile">
+        <layout class="LoggerLayoutPattern">
+            <param name="conversionPattern" value="%date %logger %-5level %msg%n" />
+        </layout>
+        <filter class="LoggerFilterLevelRange">
+            <param name="levelMin" value="trace" />
+            <param name="levelMax" value="trace" />
+            <param name="acceptOnMatch" value="true" />
+        </filter>
+        <param name="file" value="D:\Projects\boss\stable\RSCH-PROJECT/logger/cache/trace-%s.log" />
+        <param name="datePattern" value="Y-m-d" />
+    </appender>
+
+    <!--LARollingFile-->
+    <appender name="LARollingFile" class="LoggerAppenderRollingFile">
+        <layout class="LoggerLayoutSimple" />
+        <param name="file" value="file.log" />
+        <param name="append" value="true" />
+        <param name="maxFileSize" value="1MB" />
+        <param name="maxBackupIndex" value="5" />
+        <param name="compress" value="false" />
+    </appender>
+    <!--LANull-->
+    <appender name="LANull" class="LoggerAppenderNull" />
+    <!--LAPDO-MySQL-->
+    <!--CREATE TABLE lbs_log (
+        timestamp DATETIME,
+        logger VARCHAR(256),
+        level VARCHAR(32),
+        message VARCHAR(4000),
+        thread INTEGER,
+        file VARCHAR(255),
+        line VARCHAR(10)
+    );-->
+    <appender name="LAPDO-mysql" class="LoggerAppenderPDO">
+        <param name="dsn" value="mysql:host=localhost;dbname=test" />
+        <param name="user" value="root" />
+        <param name="password" value="" />
+        <param name="table" value="lbs_log" />
+        <param name="insertPattern" value="%date{Y-m-d H:i:s},%logger,%level,%message,%pid,%file,%line" />
+        <param name="insertSql" value="INSERT INTO __TABLE__ (timestamp, logger, level, message, thread, file, line) VALUES (?, ?, ?, ?, ?, ?, ?)" />
+        <!--<filter class="LoggerFilterLevelMatch">
+            <param name="levelToMatch" value="trace" />
+            <param name="acceptOnMatch" value="true" />
+        </filter>-->
+    </appender>
+
+    <!--Logger definition-->
+    <!--Default logger. Any named logger that is created will inherit these root settings.-->
+    <root>
+        <level value="trace" />
+        <appender_ref ref="default" />
+    </root>
+    <logger name="NEUTRAL_dblogger" additivity="false">
+        <level value="trace"/>
+        <appender_ref ref="LAPDO-mysql"/>
+    </logger>
+    <logger name="FATAL_dfilelogger" additivity="false">
+        <appender_ref ref="LADailyFile_FATAL"/>
+    </logger>
+    <logger name="FATAL_dfilelogger.ERROR_dfilelogger">
+        <appender_ref ref="LADailyFile_ERROR"/>
+    </logger>
+    <logger name="FATAL_dfilelogger.ERROR_dfilelogger.WARN_dfilelogger">
+        <appender_ref ref="LADailyFile_WARN"/>
+    </logger>
+    <logger name="FATAL_dfilelogger.ERROR_dfilelogger.WARN_dfilelogger.INFO_dfilelogger">
+        <appender_ref ref="LADailyFile_INFO"/>
+    </logger>
+    <logger name="FATAL_dfilelogger.ERROR_dfilelogger.WARN_dfilelogger.INFO_dfilelogger.DEBUG_dfilelogger">
+        <appender_ref ref="LADailyFile_DEBUG"/>
+    </logger>
+    <logger name="FATAL_dfilelogger.ERROR_dfilelogger.WARN_dfilelogger.INFO_dfilelogger.DEBUG_dfilelogger.TRACE_dfilelogger">
+        <appender_ref ref="LADailyFile_TRACE"/>
+    </logger>
+
+    <!--Custom-Renderer definition-->
+    <renderer renderedClass="Test" renderingClass="LoggerRendererVarexport" />
+    <renderer renderedClass="Test" renderingClass="LoggerRendererVardump" />
+
+</configuration>
