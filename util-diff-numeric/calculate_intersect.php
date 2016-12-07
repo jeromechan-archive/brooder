@@ -1,5 +1,5 @@
 <?php 
-print_r("读取当前目标迁移数据...\n");
+print_r("读取当前统计产品数据...\n");
 $targetArr = array();
 $handle = @fopen("target.txt", "r");
 if ($handle) {
@@ -12,7 +12,7 @@ if ($handle) {
 }
 fclose($handle);
 
-print_r("读取当前待迁移统计数据...\n");
+print_r("读取当前待统计产品数据...\n");
 $sourceCmpArr = array();
 $handle = @fopen("source.txt", "r");
 if ($handle) {

@@ -1,0 +1,1 @@
+Always host all kinds of POJO Bean, usually implements Serializable interface.
